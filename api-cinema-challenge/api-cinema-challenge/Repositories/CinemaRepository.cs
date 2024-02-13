@@ -209,5 +209,10 @@ namespace api_cinema_challenge.Repositories
             var tickets = await _context.Tickets.Where(t => t.ScreeningId == screeningId).ToListAsync();
             return tickets;
         }
+
+        public ApplicationUser? GetUser(string email)
+        {
+            return _context.Users.FirstOrDefault(u => u.Email == email);
+        }
     }
 }

@@ -2,6 +2,7 @@ using System.Net.Http.Headers;
 using api_cinema_challenge.DTO;
 using api_cinema_challenge.Models;
 using api_cinema_challenge.Repositories;
+using Microsoft.AspNetCore.Mvc;
 
 namespace api_cinema_challenge.Endpoints
 {
@@ -9,13 +10,15 @@ namespace api_cinema_challenge.Endpoints
     {
         public static void ConfigureTicketEndpoint(this WebApplication app)
         {
-            var cinema = app.MapGroup("cinema");
+            var cinema = app.MapGroup("/tickets");
             cinema.MapPost("customers/{customers_id}/screenings/{screening_id}", CreateTicket);
             cinema.MapGet("customers/{customers_id}/screenings/{screening_id}", GetAllTicketsByCustomerAndScreeningID);
             cinema.MapGet("customers/{customers_id}", GetAllTicketsByCustomerID);
             cinema.MapGet("screenings/{screening_id}", GetAllTicketsByScreeningID);
         }
 
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public static async Task<IResult> CreateTicket(CreateTicketPayload payload, ICinemaRepository repository)
         {
             if (payload.SeatNumber <= 0)
@@ -34,6 +37,8 @@ namespace api_cinema_challenge.Endpoints
             return TypedResults.Ok(new TicketResponseDTO("success", ticket));
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public static async Task<IResult> GetAllTicketsByCustomerAndScreeningID(int customerId, int screeningId, ICinemaRepository repository)
         {
             var tickets = await repository.GetAllTicketsByCustomerAndScreeningID(customerId, screeningId);
@@ -44,6 +49,8 @@ namespace api_cinema_challenge.Endpoints
             return TypedResults.Ok(new TicketListResponseDTO("success", tickets));
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public static async Task<IResult> GetAllTicketsByCustomerID(int customerId, ICinemaRepository repository)
         {
             var tickets = await repository.GetAllTicketsByCustomerID(customerId);
@@ -54,6 +61,8 @@ namespace api_cinema_challenge.Endpoints
             return TypedResults.Ok(new TicketListResponseDTO("success", tickets));
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public static async Task<IResult> GetAllTicketsByScreeningID(int screeningId, ICinemaRepository repository)
         {
             var tickets = await repository.GetAllTicketsByScreeningID(screeningId);

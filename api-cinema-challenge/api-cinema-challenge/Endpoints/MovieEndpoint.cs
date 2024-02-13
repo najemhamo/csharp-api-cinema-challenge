@@ -1,6 +1,8 @@
 using api_cinema_challenge.DTO;
 using api_cinema_challenge.Models;
 using api_cinema_challenge.Repositories;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace api_cinema_challenge.Endpoints
 {
@@ -8,11 +10,11 @@ namespace api_cinema_challenge.Endpoints
     {
         public static void ConfigureMovieEndpoint(this WebApplication app)
         {
-            var cinema = app.MapGroup("cinema");
-            cinema.MapGet("movies", GetAllMovies);
-            cinema.MapPost("movies", CreateMovie);
-            cinema.MapPut("movies/{id}", UpdateMovie);
-            cinema.MapDelete("movies/{id}", DeleteMovie);
+            var cinema = app.MapGroup("/movies");
+            cinema.MapGet("", GetAllMovies);
+            cinema.MapPost("", CreateMovie);
+            cinema.MapPut("/{id}", UpdateMovie);
+            cinema.MapDelete("/{id}", DeleteMovie);
         }
 
         public static async Task<IResult> GetAllMovies(ICinemaRepository repository)
@@ -21,6 +23,9 @@ namespace api_cinema_challenge.Endpoints
             return TypedResults.Ok(new MovieListResponseDTO("success", movies));
         }
 
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Authorize(Roles = "Manager")]
         public static async Task<IResult> CreateMovie(CreateMoviePayload payload, ICinemaRepository repository)
         {
             if (string.IsNullOrEmpty(payload.Title))
@@ -43,6 +48,10 @@ namespace api_cinema_challenge.Endpoints
             return TypedResults.Ok(new MovieListResponseDTO("success", new List<Movie>(){movie}));
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Authorize(Roles = "Manager")]
         public static async Task<IResult> UpdateMovie(int id, UpdateMoviePayload payload, ICinemaRepository repository)
         {
             if (string.IsNullOrEmpty(payload.Title))
@@ -69,6 +78,9 @@ namespace api_cinema_challenge.Endpoints
             return TypedResults.Ok(new MovieListResponseDTO("success", new List<Movie>(){movie}));
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Authorize(Roles = "Admin")]
         public static async Task<IResult> DeleteMovie(int id, ICinemaRepository repository)
         {
             var deleted = await repository.DeleteMovie(id);

@@ -17,10 +17,179 @@ namespace api_cinema_challenge.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.5")
+                .HasAnnotation("ProductVersion", "8.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("text");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("api_cinema_challenge.Models.ApplicationUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("Role")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex");
+
+                    b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "admin-id",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "c2535d36-0356-4bf8-9d3e-847487e73417",
+                            Email = "admin@example.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@EXAMPLE.COM",
+                            NormalizedUserName = "ADMIN@EXAMPLE.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMSieon1PTI0U7iFjHn75H6LNBgGC+oWmG9U49N+OjM+uzSGvyeofI4d8FIaJLtXXg==",
+                            PhoneNumberConfirmed = false,
+                            Role = 0,
+                            SecurityStamp = "f028d1bd-0298-4c31-abbd-1d89ff424636",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@example.com"
+                        },
+                        new
+                        {
+                            Id = "manager-id",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "db6c76af-78cc-4df7-8166-901d87af1cc8",
+                            Email = "manager@example.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "MANAGER@EXAMPLE.COM",
+                            NormalizedUserName = "MANAGER@EXAMPLE.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIIYiyoKidPR393vVDwfWO9JvtMCZxwz/lyTh6usJeIoXcc972i8tpmrUu4s1gom9w==",
+                            PhoneNumberConfirmed = false,
+                            Role = 2,
+                            SecurityStamp = "1a1b4754-7d5f-4184-88aa-a8cf73b6a6d3",
+                            TwoFactorEnabled = false,
+                            UserName = "manager@example.com"
+                        });
+                });
 
             modelBuilder.Entity("api_cinema_challenge.Models.Customer", b =>
                 {
@@ -62,20 +231,20 @@ namespace api_cinema_challenge.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2024, 2, 2, 14, 34, 7, 924, DateTimeKind.Utc).AddTicks(2550),
+                            CreatedAt = new DateTime(2024, 2, 13, 15, 3, 34, 583, DateTimeKind.Utc).AddTicks(3541),
                             Email = "chris@muse.mu",
                             Name = "Chris Wolstenholme",
                             Phone = "+44729388192",
-                            UpdatedAt = new DateTime(2024, 2, 2, 14, 34, 7, 924, DateTimeKind.Utc).AddTicks(2550)
+                            UpdatedAt = new DateTime(2024, 2, 13, 15, 3, 34, 583, DateTimeKind.Utc).AddTicks(3541)
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2024, 2, 2, 14, 34, 7, 924, DateTimeKind.Utc).AddTicks(2550),
+                            CreatedAt = new DateTime(2024, 2, 13, 15, 3, 34, 583, DateTimeKind.Utc).AddTicks(3541),
                             Email = "max.peter@gmail.com",
                             Name = "Max Peter",
                             Phone = "+49123456789",
-                            UpdatedAt = new DateTime(2024, 2, 2, 14, 34, 7, 924, DateTimeKind.Utc).AddTicks(2550)
+                            UpdatedAt = new DateTime(2024, 2, 13, 15, 3, 34, 583, DateTimeKind.Utc).AddTicks(3541)
                         });
                 });
 
@@ -123,22 +292,22 @@ namespace api_cinema_challenge.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2024, 2, 2, 14, 34, 7, 924, DateTimeKind.Utc).AddTicks(2550),
+                            CreatedAt = new DateTime(2024, 2, 13, 15, 3, 34, 583, DateTimeKind.Utc).AddTicks(3541),
                             Description = "The greatest movie ever made.",
                             Rating = "PG-13",
                             RunTimeMinutes = 126,
                             Title = "Dodgeball",
-                            UpdatedAt = new DateTime(2024, 2, 2, 14, 34, 7, 924, DateTimeKind.Utc).AddTicks(2550)
+                            UpdatedAt = new DateTime(2024, 2, 13, 15, 3, 34, 583, DateTimeKind.Utc).AddTicks(3541)
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2024, 2, 2, 14, 34, 7, 924, DateTimeKind.Utc).AddTicks(2550),
+                            CreatedAt = new DateTime(2024, 2, 13, 15, 3, 34, 583, DateTimeKind.Utc).AddTicks(3541),
                             Description = "The greatest movie ever made.",
                             Rating = "R",
                             RunTimeMinutes = 126,
                             Title = "The Matrix",
-                            UpdatedAt = new DateTime(2024, 2, 2, 14, 34, 7, 924, DateTimeKind.Utc).AddTicks(2550)
+                            UpdatedAt = new DateTime(2024, 2, 13, 15, 3, 34, 583, DateTimeKind.Utc).AddTicks(3541)
                         });
                 });
 
@@ -186,31 +355,31 @@ namespace api_cinema_challenge.Migrations
                         {
                             Id = 1,
                             Capacity = 100,
-                            CreatedAt = new DateTime(2024, 2, 2, 14, 34, 7, 924, DateTimeKind.Utc).AddTicks(2550),
+                            CreatedAt = new DateTime(2024, 2, 13, 15, 3, 34, 583, DateTimeKind.Utc).AddTicks(3541),
                             MovieId = 1,
                             ScreenNumber = 1,
-                            StartTime = new DateTime(2024, 2, 2, 14, 34, 7, 924, DateTimeKind.Utc).AddTicks(2550),
-                            UpdatedAt = new DateTime(2024, 2, 2, 14, 34, 7, 924, DateTimeKind.Utc).AddTicks(2550)
+                            StartTime = new DateTime(2024, 2, 13, 15, 3, 34, 583, DateTimeKind.Utc).AddTicks(3541),
+                            UpdatedAt = new DateTime(2024, 2, 13, 15, 3, 34, 583, DateTimeKind.Utc).AddTicks(3541)
                         },
                         new
                         {
                             Id = 2,
                             Capacity = 100,
-                            CreatedAt = new DateTime(2024, 2, 2, 14, 34, 7, 924, DateTimeKind.Utc).AddTicks(2550),
+                            CreatedAt = new DateTime(2024, 2, 13, 15, 3, 34, 583, DateTimeKind.Utc).AddTicks(3541),
                             MovieId = 2,
                             ScreenNumber = 2,
-                            StartTime = new DateTime(2024, 2, 2, 14, 34, 7, 924, DateTimeKind.Utc).AddTicks(2550),
-                            UpdatedAt = new DateTime(2024, 2, 2, 14, 34, 7, 924, DateTimeKind.Utc).AddTicks(2550)
+                            StartTime = new DateTime(2024, 2, 13, 15, 3, 34, 583, DateTimeKind.Utc).AddTicks(3541),
+                            UpdatedAt = new DateTime(2024, 2, 13, 15, 3, 34, 583, DateTimeKind.Utc).AddTicks(3541)
                         },
                         new
                         {
                             Id = 3,
                             Capacity = 40,
-                            CreatedAt = new DateTime(2024, 2, 2, 14, 34, 7, 924, DateTimeKind.Utc).AddTicks(2550),
+                            CreatedAt = new DateTime(2024, 2, 13, 15, 3, 34, 583, DateTimeKind.Utc).AddTicks(3541),
                             MovieId = 1,
                             ScreenNumber = 3,
-                            StartTime = new DateTime(2024, 2, 2, 14, 34, 7, 924, DateTimeKind.Utc).AddTicks(2550),
-                            UpdatedAt = new DateTime(2024, 2, 2, 14, 34, 7, 924, DateTimeKind.Utc).AddTicks(2550)
+                            StartTime = new DateTime(2024, 2, 13, 15, 3, 34, 583, DateTimeKind.Utc).AddTicks(3541),
+                            UpdatedAt = new DateTime(2024, 2, 13, 15, 3, 34, 583, DateTimeKind.Utc).AddTicks(3541)
                         });
                 });
 
@@ -255,30 +424,57 @@ namespace api_cinema_challenge.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2024, 2, 2, 14, 34, 7, 924, DateTimeKind.Utc).AddTicks(2550),
+                            CreatedAt = new DateTime(2024, 2, 13, 15, 3, 34, 583, DateTimeKind.Utc).AddTicks(3541),
                             CustomerId = 1,
                             ScreeningId = 1,
                             SeatNumber = 1,
-                            UpdatedAt = new DateTime(2024, 2, 2, 14, 34, 7, 924, DateTimeKind.Utc).AddTicks(2550)
+                            UpdatedAt = new DateTime(2024, 2, 13, 15, 3, 34, 583, DateTimeKind.Utc).AddTicks(3541)
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2024, 2, 2, 14, 34, 7, 924, DateTimeKind.Utc).AddTicks(2550),
+                            CreatedAt = new DateTime(2024, 2, 13, 15, 3, 34, 583, DateTimeKind.Utc).AddTicks(3541),
                             CustomerId = 2,
                             ScreeningId = 2,
                             SeatNumber = 2,
-                            UpdatedAt = new DateTime(2024, 2, 2, 14, 34, 7, 924, DateTimeKind.Utc).AddTicks(2550)
+                            UpdatedAt = new DateTime(2024, 2, 13, 15, 3, 34, 583, DateTimeKind.Utc).AddTicks(3541)
                         },
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2024, 2, 2, 14, 34, 7, 924, DateTimeKind.Utc).AddTicks(2550),
+                            CreatedAt = new DateTime(2024, 2, 13, 15, 3, 34, 583, DateTimeKind.Utc).AddTicks(3541),
                             CustomerId = 1,
                             ScreeningId = 3,
                             SeatNumber = 3,
-                            UpdatedAt = new DateTime(2024, 2, 2, 14, 34, 7, 924, DateTimeKind.Utc).AddTicks(2550)
+                            UpdatedAt = new DateTime(2024, 2, 13, 15, 3, 34, 583, DateTimeKind.Utc).AddTicks(3541)
                         });
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.HasOne("api_cinema_challenge.Models.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.HasOne("api_cinema_challenge.Models.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.HasOne("api_cinema_challenge.Models.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("api_cinema_challenge.Models.Screening", b =>

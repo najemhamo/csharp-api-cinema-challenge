@@ -39,5 +39,7 @@ namespace api_cinema_challenge.Repositories
 
         Task<ICollection<Ticket>> GetAllTicketsByScreeningID(int screeningId);
 
+        public ApplicationUser? GetUser(string email);
+
     }
 }
